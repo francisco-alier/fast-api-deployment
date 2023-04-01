@@ -44,6 +44,9 @@ def process_data(
         passed in.
     """
 
+    #clean column names - I decided to do here to avoid the creation of an extra script
+    X.columns = X.columns.str.replace(' ', '')
+    
     if label is not None:
         y = X[label]
         X = X.drop([label], axis=1)
