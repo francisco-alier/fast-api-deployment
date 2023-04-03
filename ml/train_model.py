@@ -58,6 +58,6 @@ logging.info(f"precision:{precision:.3f}, recall:{recall:.3f}, fbeta:{fbeta:.3f}
 
 # Compute performance on slices for categorical features
 for feature in cat_features:
-    performance_df = compute_metrics_on_slices(X_test, y_test, feature, clf)
+    performance_df = compute_metrics_on_slices(test, y_test, feature, clf, preds)
     logging.info(f"Performance on slice {feature}")
     logging.info(performance_df)

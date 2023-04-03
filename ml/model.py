@@ -113,19 +113,21 @@ def inference(model, X):
 
     return preds
 
-def compute_metrics_on_slices(X, y, feature_name, model):
+def compute_metrics_on_slices(X, y, feature_name, model, preds):
     """ Computes metrics on model slices given a specific categorical feature
 
     Inputs
     ------
-    X_train : np.array
+    X : Data Frame
         Training data.
-    y_train : np.array
+    y : Data Frame
         Labels.
     feature : string
         Feature to be analyzed - only works with categorical data
     model:´
         Trained Classifier
+    preds:
+        Predictions from model
     Returns
     -------
     preds : pandas dataframe
@@ -139,27 +141,27 @@ def compute_metrics_on_slices(X, y, feature_name, model):
     metrics_df = pd.DataFrame(columns=['feature_value', 'precision', 'recall', 'fbeta'])
     
     # Compute the performance metrics for each value of the fixed feature
-    for value in fixed_values:
+    for i, value in enumerate(fixed_values):
         # Select the data that has the fixed feature value
-        mask = X[:, feature_name] == value
-        X_fixed = X[mask]
+        mask = X[feature_name] == value 
+        X_fixed = X.loc[mask]
         y_fixed = y[mask]
-        
-        # Predict the target values
-        preds = inference(model, X_fixed)
-        
+        preds_fixed = preds[mask]
+
         # Compute the performance metrics
-        precision, recall, fbeta = compute_model_metrics(y_fixed, preds)
+        precision, recall, fbeta = compute_model_metrics(y_fixed, preds_fixed)
         
         # Add the performance metrics to the DataFrame
-        row = {
+        row = pd.DataFrame(
+            {
             'feature_value': value,
             'precision': precision,
             'recall': recall,
             'fbeta': fbeta
-        }
+            }, index = [i]
+                        )
 
-        metrics_df = metrics_df.append(row, ignore_index=True)
+        metrics_df = pd.concat([metrics_df, row], ignore_index=True)
 
         #Export the metrics to a .txt file
         with open('slice_output.txt', 'w') as f:
