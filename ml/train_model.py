@@ -16,7 +16,7 @@ logging.basicConfig(filename='train_model.log',
                     format='%(name)s - %(levelname)s - %(message)s')
 
 # Loading the data
-data = pd.read_csv("../data/census.csv")
+data = pd.read_csv("./data/census.csv")
 
 # Optional enhancement, use K-fold cross validation instead of a train-test split.
 train, test = train_test_split(data, test_size=0.20, random_state=42)
@@ -41,14 +41,15 @@ X_test, y_test, encoder_test, lb_test = process_data(
 )
 
 #In case model already exists
-if os.path.isfile("../model/classifier.pkl"):
-    clf = pickle.load(open("../model/classifier.pkl", 'rb'))
+if os.path.isfile("./model/classifier.pkl"):
+    clf = pickle.load(open("./model/classifier.pkl", 'rb'))
 
 else:
     # Train and save a model.
     clf = train_model(X_train, y_train)
-    pickle.dump(clf, open("../model/classifier.pkl", 'wb'))
-    pickle.dump(encoder, open("../model/encoder.pkl", 'wb'))
+    pickle.dump(clf, open("./model/classifier.pkl", 'wb'))
+    pickle.dump(encoder, open("./model/encoder.pkl", 'wb'))
+    pickle.dump(lb, open("./model/lb.pkl", 'wb'))
     logging.info("Model & encoder were saved to disk in folder model")
 
 #Inference functions
