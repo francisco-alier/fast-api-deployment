@@ -70,9 +70,12 @@ async def startup_event():
     global clf, encoder, lb 
 
     #Load the artifacts
-    clf = pickle.load(open(os.path.join("./model","classifier.pkl"), 'rb'))
-    encoder = pickle.load(open(os.path.join("./model","encoder.pkl"), 'rb'))
-    lb = pickle.load(open(os.path.join("./model","lb.pkl"), 'rb'))
+    with open(os.path.join("./model","classifier.pkl"), 'rb') as file1:
+        clf = pickle.load(file1)
+    with open(os.path.join("./model","encoder.pkl"), 'rb') as file2:    
+        encoder = pickle.load(file2)
+    with open(os.path.join("./model","lb.pkl"), 'rb') as file3:  
+        lb = pickle.load(file3)
 
 
 # Define a GET on the specified endpoint.
@@ -102,9 +105,12 @@ async def predict_sample(item: Input):
     row = pd.DataFrame(data, index=[0])
 
     #Load the artifacts
-    clf = pickle.load(open(os.path.join("./model","classifier.pkl"), 'rb'))
-    encoder = pickle.load(open(os.path.join("./model","encoder.pkl"), 'rb'))
-    lb = pickle.load(open(os.path.join("./model","lb.pkl"), 'rb'))
+    with open(os.path.join("./model","classifier.pkl"), 'rb') as file1:
+        clf = pickle.load(file1)
+    with open(os.path.join("./model","encoder.pkl"), 'rb') as file2:    
+        encoder = pickle.load(file2)
+    with open(os.path.join("./model","lb.pkl"), 'rb') as file3:  
+        lb = pickle.load(file3)
 
     #processing the data
     X_row, y_row, encoder_row, lb_row = process_data(
