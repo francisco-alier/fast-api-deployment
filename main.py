@@ -41,20 +41,20 @@ class Input(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                "age": 30,
-                "workclass": 'State-gov',
-                "fnlgt": 66514,
-                "education": 'Bachelors',
-                "education_num": 10,
-                "marital_status": "Never-married",
-                "occupation": "Tech-support",
-                "relationship": "Unmarried",
-                "race": "White",
-                "sex": "Male",
-                "capital_gain": 5000,
-                "capital_loss": 0,
-                "hours_per_week": 30,
-                "native_country": 'Portugal'
+                'age': 30,
+                'workclass': "State-gov",
+                'fnlgt': 66514,
+                'education': "Bachelors",
+                'education_num': 10,
+                'marital_status': "Never-married",
+                'occupation': "Tech-support",
+                'relationship': "Unmarried",
+                'race': "White",
+                'sex': "Male",
+                'capital_gain': 5000,
+                'capital_loss': 0,
+                'hours_per_week': 30,
+                'native_country': "Portugal"
             }
         }
 
@@ -66,6 +66,7 @@ app = FastAPI()
 @app.get("/")
 async def greetings():
     return "Welcome to this amazing app! You will predict if a person earns more than 50k a year based on their characteristics."
+
 
 # This allows sending of data (our TaggedItem) via POST to the API.
 @app.post("/predictions")
@@ -83,7 +84,7 @@ async def predict_sample(item: Input):
                 'relationship': item.relationship,
                 'race': item.race,
                 'sex': item.sex,
-                'workclass': item.workclass, 
+                'workclass': item.workclass 
                 }
     row = pd.DataFrame(data, index=[0])
 

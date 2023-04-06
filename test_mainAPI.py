@@ -55,24 +55,25 @@ def test_inference_case2():
     """
     Test model inference output for one case - POST
     """
-    sample =  {"age": 60,
-                "workclass": 'State-gov',
-                "fnlgt": 2000,
-                "education": 'Bachelors',
-                "education_num": 10,
-                "marital_status": "Never-married",
-                "occupation": "Private",
-                "relationship": "Unmarried",
-                "race": "White",
-                "sex": "Female",
-                "capital_gain": 900000,
-                "capital_loss": 0,
-                "hours_per_week": 40,
-                "native_country": 'United-States'}
+    sample =    {'age':55,
+                'workclass':"Private", 
+                'fnlgt':234721,
+                'education':"Doctorate",
+                'education_num':16,
+                'marital_status':"Separated",
+                'occupation':"Exec-managerial",
+                'relationship':"Not-in-family",
+                'race':"Black",
+                'sex':"Male",
+                'capital_gain':0,
+                'capital_loss':0,
+                'hours_per_week':50,
+                'native_country':"United-States"
+            }
 
     data = json.dumps(sample)
 
-    r = client.post("/predictions/", data=data )
+    r = client.post("/predictions", data=data )
 
     # test response and output
     assert r.status_code == 200
@@ -80,4 +81,4 @@ def test_inference_case2():
 
     # test prediction vs expected label
     prediction = r.json()["prediction"]
-    assert prediction == '<=50K'
+    assert prediction == '>50K'

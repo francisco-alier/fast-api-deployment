@@ -21,9 +21,9 @@ cat_features = [
 ]
 
 data = {"age": 60,
-                "workclass": 'State-gov',
+                "workclass": "State-gov",
                 "fnlgt": 2000,
-                "education": 'Bachelors',
+                "education": "Bachelors",
                 "education-num": 10,
                 "marital-status": "Never-married",
                 "occupation": "Private",
@@ -33,7 +33,7 @@ data = {"age": 60,
                 "capital-gain": 10000000,
                 "capital-loss": 0,
                 "hours-per-week": 40,
-                "native-country": 'United-States'}
+                "native-country": "United-States"}
 
 row = pd.DataFrame(data, index=[0])
 
