@@ -1,10 +1,10 @@
-numpy==1.24.2
-pandas==1.5.3
+numpy
+pandas
 scikit-learn==1.2.2
-pytest==7.2.2
-requests==2.28.2
+pytest
+requests
 fastapi==0.63.0
-uvicorn==0.21.1
+uvicorn
 gunicorn
-httpx==0.23.3
+httpx
 #pickle
