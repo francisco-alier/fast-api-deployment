@@ -15,8 +15,8 @@ import pickle
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 
-DATA_PTH = "../data/census.csv"
-MODEL_PTH = "../model/classifier.pkl"
+DATA_PTH = "./data/census.csv"
+MODEL_PTH = "./model/classifier.pkl"
 cat_features = [
     "workclass",
     "education",
