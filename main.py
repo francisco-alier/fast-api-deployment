@@ -42,26 +42,38 @@ class Input(BaseModel):
     class Config:
         schema_extra = {
             "example": {
-                'age': 30,
-                'workclass': "State-gov",
-                'fnlgt': 66514,
-                'education': "Bachelors",
-                'education_num': 10,
-                'marital_status': "Never-married",
-                'occupation': "Tech-support",
-                'relationship': "Unmarried",
-                'race': "White",
-                'sex': "Male",
-                'capital_gain': 5000,
-                'capital_loss': 0,
-                'hours_per_week': 30,
-                'native_country': "Portugal"
+                "age": 30,
+                "workclass": "State-gov",
+                "fnlgt": 66514,
+                "education": "Bachelors",   
+                "education_num": 10,
+                "marital_status": "Never-married",
+                "occupation": "Tech-support",
+    	        "relationship": "Unmarried",
+                "race": "White",
+                "sex": "Male",
+                "capital_gain": 5000,
+                "capital_loss": 0,
+                "hours_per_week": 30,
+                "native_country": "Portugal"
+
             }
         }
 
 
 # Instantiate the app.
 app = FastAPI()
+
+#Load models at startup
+@app.on_event("startup")
+async def startup_event(): 
+    global CLF, ENCODER, LB 
+
+    #Load the artifacts
+    CLF = pickle.load(open(os.path.join("./model","classifier.pkl"), 'rb'))
+    ENCODER = pickle.load(open(os.path.join("./model","encoder.pkl"), 'rb'))
+    LB = pickle.load(open(os.path.join("./model","lb.pkl"), 'rb'))
+
 
 # Define a GET on the specified endpoint.
 @app.get("/")
@@ -89,22 +101,17 @@ async def predict_sample(item: Input):
                 }
     row = pd.DataFrame(data, index=[0])
 
-    #Load the artifacts
-    clf = pickle.load(open(os.path.join("./model","classifier.pkl"), 'rb'))
-    encoder = pickle.load(open(os.path.join("./model","encoder.pkl"), 'rb'))
-    lb = pickle.load(open(os.path.join("./model","lb.pkl"), 'rb'))
-
     #processing the data
     X_row, y_row, encoder_row, lb_row = process_data(
                                                       row, 
                                                       categorical_features=cat_features, 
                                                       training=False, 
-                                                      encoder = encoder,
-                                                      lb = lb
+                                                      encoder = ENCODER,
+                                                      lb = LB
                                                             )
     
     #predict
-    prediction = inference(clf, X_row)
+    prediction = inference(CLF, X_row)
 
     #Return prediction
     data["prediction"] = ">50K" if prediction[0] > 0.5 else "<=50K"
@@ -112,5 +119,5 @@ async def predict_sample(item: Input):
     return data
 
 
-if __name__ == "__main__":
-    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
+#if __name__ == "__main__":
+#    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
