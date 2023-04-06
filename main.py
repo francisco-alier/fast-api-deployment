@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 import pickle
 import uvicorn
+import os
 from ml.data import process_data
 from ml.model import inference
 
@@ -89,9 +90,9 @@ async def predict_sample(item: Input):
     row = pd.DataFrame(data, index=[0])
 
     #Load the artifacts
-    clf = pickle.load(open("classifier.pkl", 'rb'))
-    encoder = pickle.load(open("encoder.pkl", 'rb'))
-    lb = pickle.load(open("lb.pkl", 'rb'))
+    clf = pickle.load(open(os.path.join("./model","classifier.pkl"), 'rb'))
+    encoder = pickle.load(open(os.path.join("./model","encoder.pkl"), 'rb'))
+    lb = pickle.load(open(os.path.join("./model","lb.pkl"), 'rb'))
 
     #processing the data
     X_row, y_row, encoder_row, lb_row = process_data(
