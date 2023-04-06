@@ -89,9 +89,9 @@ async def predict_sample(item: Input):
     row = pd.DataFrame(data, index=[0])
 
     #Load the artifacts
-    clf = pickle.load(open("./model/classifier.pkl", 'rb'))
-    encoder = pickle.load(open("./model/encoder.pkl", 'rb'))
-    lb = pickle.load(open("./model/lb.pkl", 'rb'))
+    clf = pickle.load(open("classifier.pkl", 'rb'))
+    encoder = pickle.load(open("encoder.pkl", 'rb'))
+    lb = pickle.load(open("lb.pkl", 'rb'))
 
     #processing the data
     X_row, y_row, encoder_row, lb_row = process_data(
