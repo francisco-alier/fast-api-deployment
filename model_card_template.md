@@ -22,6 +22,7 @@ The dataset was obtained from the uci public repository and its extraction was d
 
 ## Evaluation Data
 We applied categorical encoding to the necessary features of that nature by using the same encoders as used on the training set. Those encoders were the label binarizer for the target and One Hot Encoder for the categorical features.
+We used 20% of data for testing our model.
 
 ## Metrics
 The metrics evaluated were the fbeta, precision and recall,
